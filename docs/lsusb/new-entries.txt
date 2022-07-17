@@ -1,0 +1,4 @@
+Bus 001 Device 042: ID 10c4:ea60 Silicon Labs CP210x UART Bridge
+Bus 001 Device 041: ID 0483:5710 STMicroelectronics Joystick in FS Mode
+Bus 001 Device 038: ID 05e3:0610 Genesys Logic, Inc. Hub
+Bus 002 Device 006: ID 05e3:0620 Genesys Logic, Inc. USB3.1 Hub

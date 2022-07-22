@@ -5,6 +5,7 @@
 | SIDE_BUTTON                       | 81                   |            |
 | SCROLL_WHEEL_UP                   | [49][c9]             |            |
 | SCROLL_WHEEL_DOWN                 | [09][89]             |            |
+| SCROLL_WHEEL_CLICK                | [0a][8a]             |            |
 | BUTTON_3                          | 82                   |            |
 | BUTTON_A                          | [22][a2]             |            |
 | BUTTON_B                          | [23][a3]             |            |

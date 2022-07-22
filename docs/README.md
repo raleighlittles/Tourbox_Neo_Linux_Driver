@@ -20,3 +20,5 @@
 | BIG_CENTER_WHEEL_CLOCKWISE        | [44][c4]             |            |
 | BIG_CENTER_WHEEL_COUNTERCLOCKWISE | 84                   |            |
 | BUTTON_11                         | [2a][aa]             |            |
+
+![annotated version](./tourbox-stock-image-annotated.jpg)

@@ -17,11 +17,16 @@
 #include <cstring>
 #include <termios.h>
 #include <unistd.h>
-
 #include <iomanip>
+
+#include <linux/uinput.h>
 
 int main(int /* argc */, char** /* argv[] */ )
 {
+
+    /// ---------- ///
+    /// Setup and open a serial port ///
+
     const std::string serialPortFile = "/dev/ttyUSB0";
 
     const int serialPortFileDescriptor = open(serialPortFile.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
@@ -53,7 +58,33 @@ int main(int /* argc */, char** /* argv[] */ )
     // Wait for the serial port to open -- this might not be needed
     usleep(100000);
 
-    std::array<uint8_t, 2> readBuffer;
+    std::array<uint8_t, 1> readBuffer;
+
+    /// ---------- ///
+    /// Setup the virtual driver. (See example.c)
+
+    struct uinput_setup usetup;
+
+   int fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK);
+
+
+   /*
+    * The ioctls below will enable the device that is about to be
+    * created, to pass key events, in this case the space key.
+    */
+   ioctl(fd, UI_SET_EVBIT, EV_KEY);
+   ioctl(fd, UI_SET_KEYBIT, KEY_SPACE);
+
+   memset(&usetup, 0, sizeof(usetup));
+   usetup.id.bustype = BUS_USB;
+   usetup.id.vendor = 0x0483; /* Same vendor as default device */
+   usetup.id.product = 0xBEEF; /* Bogus product ID */
+   strcpy(usetup.name, "Custom Tourbox TBG_H Driver");
+
+   ioctl(fd, UI_DEV_SETUP, &usetup);
+   ioctl(fd, UI_DEV_CREATE);
+
+   sleep (1);
 
     while (true) {
 
@@ -66,7 +97,7 @@ int main(int /* argc */, char** /* argv[] */ )
 
         if (bytesRead > 0) {
 
-            std::cout << std::hex << std::setfill('0') << std::setw(2) << readBuffer[0] << " " << readBuffer[1];
+            std::cout << std::hex << std::setfill('0') << std::setw(2) << readBuffer[0] << " " << readBuffer[1] << std::endl;
             
             switch (readBuffer[0]) {
 
@@ -110,57 +141,40 @@ int main(int /* argc */, char** /* argv[] */ )
                     std::cout << "D-Pad right pressed" << std::endl;
                     break;
 
-                // End 'simple' buttons
-
                 case 0x0A:
-                    // if (readBuffer[1] == 0x0A) {
                         std::cout << "Scroll wheel clicked" << std::endl;
-                    // }
                     break;
 
                 case 0x09:
-                    //if (readBuffer[1] == 0x89) {
                         std::cout << "Scroll wheel down used" << std::endl;
-                    //}
                     break;
 
                 case 0x2A:
-                    // if (readBuffer[1] == 0xAA) {
                         std::cout << "Button 11 pressed" << std::endl;
-                    // }
                     break;
 
                 case 0x22:
-                    // if (readBuffer[1] == 0xA2) {
                         std::cout << "Button A pressed" << std::endl;
-                    // }
                     break;
 
                 case 0x23:
-                    // if (readBuffer[1] == 0xA3) {
                         std::cout << "Button B pressed" << std::endl;
-                    // }
                     break;
 
                 case 0x44:
-                    //if (readBuffer[1] == 0xC4) {
                         std::cout << "Big center wheel moved clockwise" << std::endl;
-                   // }
                     break;
 
                 case 0x49:
-                    //if (readBuffer[1] == 0xC9) {
                         std::cout << "Scroll wheel up used" << std::endl;
-                    // }
                     break;
 
                 case 0x4F:
-                    // if (readBuffer[1] == 0xCF) {
                         std::cout << "iPod wheel moved counterclockwise" << std::endl;
-                    // }
                     break;
 
-
+                // Don't put a default statement here, since the bytes you'd catch would just be the 'RELEASED' version of the keypress signal 
+                // (since above you're only listening to the 'PRESSED' version)
             }
 
             usleep(1000);
@@ -171,4 +185,11 @@ int main(int /* argc */, char** /* argv[] */ )
         
     }
 
+    /// ---------- ///
+    // Clean up
+    ioctl(fd, UI_DEV_DESTROY);
+    close(fd);
+
+
+    return 0;
 }

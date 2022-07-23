@@ -21,6 +21,20 @@
 
 #include <linux/uinput.h>
 
+void emit(int fd, int type, int code, int val)
+{
+   struct input_event ie;
+
+   ie.type = type;
+   ie.code = code;
+   ie.value = val;
+   /* timestamp values below are ignored */
+   ie.time.tv_sec = 0;
+   ie.time.tv_usec = 0;
+
+   write(fd, &ie, sizeof(ie));
+}
+
 int main(int /* argc */, char** /* argv[] */ )
 {
 
@@ -73,7 +87,7 @@ int main(int /* argc */, char** /* argv[] */ )
     * created, to pass key events, in this case the space key.
     */
    ioctl(fd, UI_SET_EVBIT, EV_KEY);
-   ioctl(fd, UI_SET_KEYBIT, KEY_SPACE);
+   // ioctl(fd, UI_SET_KEYBIT, KEY_SPACE);
 
    memset(&usetup, 0, sizeof(usetup));
    usetup.id.bustype = BUS_USB;
@@ -154,7 +168,13 @@ int main(int /* argc */, char** /* argv[] */ )
                     break;
 
                 case 0x22:
+                        ioctl(fd, UI_SET_KEYBIT, KEY_A);
+
                         std::cout << "Button A pressed" << std::endl;
+                        emit(fd, EV_KEY, KEY_A, 1);
+                        emit(fd, EV_SYN, SYN_REPORT, 0);
+                        emit(fd, EV_KEY, KEY_A, 0);
+                        emit(fd, EV_SYN, SYN_REPORT, 0);
                     break;
 
                 case 0x23:

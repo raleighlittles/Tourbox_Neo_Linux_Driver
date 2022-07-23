@@ -22,3 +22,19 @@
 | BUTTON_11                         | [2a][aa]             |            |
 
 ![annotated version](./tourbox-stock-image-annotated.jpg)
+
+
+# Serial port settings
+
+(From Picocom)
+
+```
+*** baud: 112500 (112676)
+*** flow: none
+*** parity: none
+*** databits: 8
+*** stopbits: 1
+*** dtr: up
+*** rts: up
+*** mctl: DTR:1 DSR:0 DCD:0 RTS:1 CTS:0 RI:0
+```

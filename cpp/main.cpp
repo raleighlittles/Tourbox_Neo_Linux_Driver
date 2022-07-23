@@ -87,7 +87,8 @@ int main(int /* argc */, char** /* argv[] */ )
     * created, to pass key events, in this case the space key.
     */
    ioctl(fd, UI_SET_EVBIT, EV_KEY);
-   // ioctl(fd, UI_SET_KEYBIT, KEY_SPACE);
+   // ioctl(fd, UI_SET_KEYBIT, KEY_SPACE)
+   ioctl(fd, UI_SET_KEYBIT, KEY_A);
 
    memset(&usetup, 0, sizeof(usetup));
    usetup.id.bustype = BUS_USB;
@@ -168,7 +169,6 @@ int main(int /* argc */, char** /* argv[] */ )
                     break;
 
                 case 0x22:
-                        ioctl(fd, UI_SET_KEYBIT, KEY_A);
 
                         std::cout << "Button A pressed" << std::endl;
                         emit(fd, EV_KEY, KEY_A, 1);
@@ -204,6 +204,8 @@ int main(int /* argc */, char** /* argv[] */ )
         usleep(1000);
         
     }
+
+    sleep(1);
 
     /// ---------- ///
     // Clean up

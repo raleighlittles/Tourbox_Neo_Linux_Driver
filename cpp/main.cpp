@@ -65,7 +65,7 @@ int main(int /* argc */, char** /* argv[] */ )
     /// ---------- ///
     /// Setup the virtual driver
 
-    const int uinputFileDescriptor = setupUinput();
+    const int uinputFileDescriptor = setupKeyboardUinput();
 
    sleep (1);
 

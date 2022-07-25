@@ -44,8 +44,8 @@ std::map<KeyType, int> keyMap = { std::make_pair(KeyType::SIDE_BUTTON, KEY_MUTE)
                                   std::make_pair(KeyType::SCROLL_WHEEL_DOWN, KEY_SCROLLDOWN),
                                   std::make_pair(KeyType::SCROLL_WHEEL_CLICK, KEY_PAUSE),
                                   std::make_pair(KeyType::BUTTON_3, KEY_ENTER),
-                                  std::make_pair(KeyType::BUTTON_A, KEY_A),
-                                  std::make_pair(KeyType::BUTTON_B, KEY_B),
+                                  std::make_pair(KeyType::BUTTON_A, BTN_LEFT),
+                                  std::make_pair(KeyType::BUTTON_B, BTN_RIGHT),
                                   std::make_pair(KeyType::BUTTON_6, KEY_DOT),
                                   std::make_pair(KeyType::BUTTON_7, KEY_MENU),
                                   std::make_pair(KeyType::IPOD_WHEEL_CLOCKWISE, KEY_VOLUMEUP),
@@ -105,13 +105,14 @@ void registerMouseEvents(int fileDescriptor)
 }
 
 
-int setupKeyboardUinput(void)
+int setupUinput(void)
 {
     struct uinput_setup usetup;
 
     int fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK);
 
     registerKeyboardEvents(fd);
+    registerMouseEvents(fd);
 
     usleep(1000);
 
@@ -121,31 +122,6 @@ int setupKeyboardUinput(void)
 
     usetup.id.product = 0xBEEF; /* Bogus product ID */
     strcpy(usetup.name,"Custom Tourbox TBG_H Driver (Keyboard/Mouse)");
-
-    ioctl(fd, UI_DEV_SETUP, &usetup);
-    ioctl(fd, UI_DEV_CREATE);
-
-    return fd;
-}
-
-
-int setupMouseUinput(void)
-{
-    struct uinput_setup usetup;
-
-    int fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK);
-
-    registerMouseEvents(fd);
-
-    usleep(1000);
-
-    memset(&usetup, 0, sizeof(usetup));
-    usetup.id.bustype = BUS_USB;
-    usetup.id.vendor = 0x0483; /* Same vendor as default device */
-
-    usetup.id.product = 0xDEAD; /* Bogus product ID */
-
-    strcpy(usetup.name,"Custom Tourbox TBG_H Driver (Mouse)");
 
     ioctl(fd, UI_DEV_SETUP, &usetup);
     ioctl(fd, UI_DEV_CREATE);

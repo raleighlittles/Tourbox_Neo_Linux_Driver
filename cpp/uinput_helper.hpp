@@ -39,7 +39,7 @@ enum class KeyType
     BUTTON_11
 };
 
-std::map<KeyType, int> keyMap = { std::make_pair(KeyType::SIDE_BUTTON, KEY_MUTE),
+static std::map<KeyType, int> keyMap = { std::make_pair(KeyType::SIDE_BUTTON, KEY_MUTE),
                                   std::make_pair(KeyType::SCROLL_WHEEL_UP, KEY_SCROLLUP),
                                   std::make_pair(KeyType::SCROLL_WHEEL_DOWN, KEY_SCROLLDOWN),
                                   std::make_pair(KeyType::SCROLL_WHEEL_CLICK, KEY_PAUSE),
@@ -93,6 +93,10 @@ void registerKeyboardEvents(int fileDescriptor)
 
 void registerMouseEvents(int fileDescriptor)
 {
+    // Some desktop environments have a bug in them where, to be able to able generate mouse events,
+    // you have to reigster a mouse-left and mouse-right handler as well (so that it thinks it's a real mouse)
+    // See: https://askubuntu.com/a/742876/895315
+
     ioctl(fileDescriptor, UI_SET_EVBIT, EV_KEY);
     ioctl(fileDescriptor, UI_SET_KEYBIT, BTN_LEFT);
     ioctl(fileDescriptor, UI_SET_KEYBIT, BTN_RIGHT);

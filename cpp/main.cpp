@@ -66,6 +66,7 @@ int main(int /* argc */, char** /* argv[] */ )
     /// Setup the virtual driver
 
     const int uinputFileDescriptor = setupKeyboardUinput();
+    const int uinputFileDescriptorForMouse = setupMouseUinput();
 
    sleep (1);
 
@@ -116,26 +117,26 @@ int main(int /* argc */, char** /* argv[] */ )
 
                 case 0x90:
                     std::cout << "D-Pad up pressed" << std::endl;
-                    emit(uinputFileDescriptor, EV_REL, REL_Y, +1);
-                    emit(uinputFileDescriptor, EV_SYN, SYN_REPORT, 0);
+                    emit(uinputFileDescriptorForMouse, EV_REL, REL_Y, +5);
+                    emit(uinputFileDescriptorForMouse, EV_SYN, SYN_REPORT, 0);
                     break;
 
                 case 0x91:
                     std::cout << "D-pad down pressed" << std::endl;
-                    emit(uinputFileDescriptor, EV_REL, REL_Y, -1);
-                    emit(uinputFileDescriptor, EV_SYN, SYN_REPORT, 0);
+                    emit(uinputFileDescriptorForMouse, EV_REL, REL_Y, -5);
+                    emit(uinputFileDescriptorForMouse, EV_SYN, SYN_REPORT, 0);
                     break;
 
                 case 0x92:
                     std::cout << "D-pad left pressed" << std::endl;
-                    emit(uinputFileDescriptor, EV_REL, REL_X, -1);
-                    emit(uinputFileDescriptor, EV_SYN, SYN_REPORT, 0);
+                    emit(uinputFileDescriptorForMouse, EV_REL, REL_X, -5);
+                    emit(uinputFileDescriptorForMouse, EV_SYN, SYN_REPORT, 0);
                     break;
 
                 case 0x93:
                     std::cout << "D-Pad right pressed" << std::endl;
-                    emit(uinputFileDescriptor, EV_REL, REL_X, +1);
-                    emit(uinputFileDescriptor, EV_SYN, SYN_REPORT, 0);
+                    emit(uinputFileDescriptorForMouse, EV_REL, REL_X, +5);
+                    emit(uinputFileDescriptorForMouse, EV_SYN, SYN_REPORT, 0);
                     break;
 
                 case 0x0A:

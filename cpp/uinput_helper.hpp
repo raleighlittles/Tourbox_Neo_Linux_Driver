@@ -85,7 +85,6 @@ void registerKeyboardEvents(int fileDescriptor)
     ioctl(fileDescriptor, UI_SET_EVBIT, EV_KEY);
 
     // These are all of the following key types that the Tourbox will be able to produce using this driver
-    //ioctl(fileDescriptor, UI_SET_KEYBIT, KEY_A);
 
     for (const auto keyType: keyMap) {
         ioctl(fileDescriptor, UI_SET_KEYBIT, keyType.second);
@@ -94,7 +93,11 @@ void registerKeyboardEvents(int fileDescriptor)
 
 void registerMouseEvents(int fileDescriptor)
 {
+    ioctl(fileDescriptor, UI_SET_EVBIT, EV_KEY);
+    ioctl(fileDescriptor, UI_SET_KEYBIT, BTN_LEFT);
+    ioctl(fileDescriptor, UI_SET_KEYBIT, BTN_RIGHT);
     ioctl(fileDescriptor, UI_SET_EVBIT, EV_REL);
+
 
     // Tells the uinput interface to allow mouse movements
     ioctl(fileDescriptor, UI_SET_RELBIT, REL_X);
@@ -117,8 +120,32 @@ int setupKeyboardUinput(void)
     usetup.id.vendor = 0x0483; /* Same vendor as default device */
 
     usetup.id.product = 0xBEEF; /* Bogus product ID */
+    strcpy(usetup.name,"Custom Tourbox TBG_H Driver (Keyboard/Mouse)");
 
-    strcpy(usetup.name,"Custom Tourbox TBG_H Driver (Keyboard)");
+    ioctl(fd, UI_DEV_SETUP, &usetup);
+    ioctl(fd, UI_DEV_CREATE);
+
+    return fd;
+}
+
+
+int setupMouseUinput(void)
+{
+    struct uinput_setup usetup;
+
+    int fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK);
+
+    registerMouseEvents(fd);
+
+    usleep(1000);
+
+    memset(&usetup, 0, sizeof(usetup));
+    usetup.id.bustype = BUS_USB;
+    usetup.id.vendor = 0x0483; /* Same vendor as default device */
+
+    usetup.id.product = 0xDEAD; /* Bogus product ID */
+
+    strcpy(usetup.name,"Custom Tourbox TBG_H Driver (Mouse)");
 
     ioctl(fd, UI_DEV_SETUP, &usetup);
     ioctl(fd, UI_DEV_CREATE);

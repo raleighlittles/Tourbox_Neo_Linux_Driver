@@ -20,6 +20,7 @@ In a separate window, open `dmesg`.
 Since the device will be writing to `/dev/uinput`, you need to either:
 
 (a) Run the executable (Tourbox_Linux_Driver) as root
+
 (b) Change the permissions on `/dev/uinput`
 
 Whatever you decide to do, after running the executable you should see an entry in the `dmesg` wnidow with the device:
@@ -28,4 +29,10 @@ Whatever you decide to do, after running the executable you should see an entry 
 input: Custom Tourbox TBG_H Driver (Keyboard/Mouse) as /devices/virtual/input/input48
 ```
 
-This tells you it's ready for use. When you're ready to stop using the driver, simply Ctrl + C (SIGINT) the program.
+This tells you it's ready for use. When you're ready to stop using the driver, simply Ctrl + C (SIGINT) the program
+
+If you'd like to change the functionality provided by the driver, you can use Xmodmap to create your own keymap.
+
+# Roadmap
+
+- [ ] Create a Rust version

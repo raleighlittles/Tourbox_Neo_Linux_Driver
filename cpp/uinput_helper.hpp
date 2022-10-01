@@ -1,7 +1,8 @@
 /**
  * @file uinput_helper.hpp
  * @author Raleigh Littles <raleighlittles@gmail.com>
- * @brief Helper functions for working with Linux's `uinput` module
+ * @brief Helper functions for working with Linux's `uinput` module.
+ *        Based heavily on: https://www.kernel.org/doc/html/latest/input/uinput.html
  * @version 0.1
  * @date 2022-07-24
  *

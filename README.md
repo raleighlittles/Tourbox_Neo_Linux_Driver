@@ -33,6 +33,3 @@ This tells you it's ready for use. When you're ready to stop using the driver, s
 
 If you'd like to change the functionality provided by the driver, you can use Xmodmap to create your own keymap.
 
-# Roadmap
-
-- [ ] Create a Rust version

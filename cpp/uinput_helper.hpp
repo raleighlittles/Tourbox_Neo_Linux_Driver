@@ -84,7 +84,7 @@ void registerKeyboardEvents(int fileDescriptor)
 
     // These are all of the following key types that the Tourbox will be able to produce using this driver
 
-    for (const auto keyType : keyMap)
+    for (const auto& keyType : keyMap)
     {
         ioctl(fileDescriptor, UI_SET_KEYBIT, keyType.second);
     }

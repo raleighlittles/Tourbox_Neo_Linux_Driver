@@ -35,7 +35,7 @@ int main(int /* argc */, char**  /* argv[] */) {
         return -1;
     }
 
-    //Device only has one 1 USB interface (see `lsusb` output) TODO is this still true?
+    // Device only has one 1 USB interface (see `lsusb` output) TODO is this still true?
     const int interfaceNum = 0;
 
     // Can't claim the device if the operating system is using it
@@ -93,7 +93,7 @@ int main(int /* argc */, char**  /* argv[] */) {
     rc = libusb_attach_kernel_driver(lusb_dev_hndl, interfaceNum);
 
     if (rc < libusb_error::LIBUSB_SUCCESS) {
-        std::cerr << "Error re-attaching kernel driver" << std::endl;
+        std::cerr << "Error re-attaching kernel driver, libusb err# " << rc << " | " << libusb_strerror(rc) << std::endl;
     }
 
     return 0;

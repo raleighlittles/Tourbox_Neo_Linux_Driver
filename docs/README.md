@@ -21,7 +21,7 @@ Button mapping names come from: https://github.com/torvalds/linux/blob/master/in
 | IPOD_WHEEL_COUNTERCLOCKWISE       | [4f][cf]           | KEY_VOLUMEDOWN                |
 | BIG_CENTER_WHEEL_CLOCKWISE        | [44][c4]           | KEY_BRIGHTNESSUP              |
 | BIG_CENTER_WHEEL_COUNTERCLOCKWISE | 84                 | KEY_BRIGHTNESSDOWN            |
-| BUTTON_11                         | [2a][aa]           |                               |
+| BUTTON_11                         | [2a][aa]           | KEY_ESC                       |
 
 ![annotated version](./tourbox-stock-image-annotated.jpg)
 

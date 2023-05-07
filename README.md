@@ -1,3 +1,5 @@
+![CI build badge](https://github.com/raleighlittles/Tourbox_Neo_Linux_Driver/actions/workflows/main.yml/badge.svg)
+
 ![Tourbox Stock image](./docs/tourbox-stock-image.jpg)
 
 # About

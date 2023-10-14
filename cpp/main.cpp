@@ -15,6 +15,7 @@
 #include <iomanip>
 #include <iostream>
 #include <signal.h>
+#include <stdint.h>
 #include <string>
 #include <termios.h>
 #include <unistd.h>

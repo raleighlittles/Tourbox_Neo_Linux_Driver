@@ -14,6 +14,7 @@
 #include <fcntl.h>
 #include <iomanip>
 #include <iostream>
+#include <filesystem>
 #include <signal.h>
 #include <stdint.h>
 #include <string>
@@ -32,19 +33,33 @@ void sigint_handler(sig_atomic_t /* s */)
     exit(1);
 }
 
-int main(int /* argc */, char ** /* argv[] */)
+int main(int argc, char **argv)
 {
+
+    const int num_required_params = 2;
+
+    if (argc != num_required_params)
+    {
+        std::cerr << "Error: invalid # of parameters, expected " << num_required_params << ", only received " << argc << std::endl;
+        return 1;
+    }
+
+    const std::string serialPortFile = argv[1];
+
+    if (std::filesystem::exists(std::filesystem::path(serialPortFile)) == false)
+    {
+        std::cerr << "Error: couldn't find serial port file '" << serialPortFile << "'" << std::endl;
+        return 1;
+    }
 
     /// ---------- ///
     /// Setup and open a serial port ///
-
-    const std::string serialPortFile = "/dev/ttyUSB0";
 
     const int serialPortFileDescriptor = open(serialPortFile.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
 
     if (serialPortFileDescriptor == -1)
     {
-        std::cerr << "Failed to open serial port file " << serialPortFile << std::endl;
+        std::cerr << "Error: Failed to open serial port file " << serialPortFile << std::endl;
         return 1;
     }
 
@@ -56,7 +71,7 @@ int main(int /* argc */, char ** /* argv[] */)
     if ((tcsetattr(serialPortFileDescriptor, TCSANOW, &term_options)) != 0)
     {
 
-        std::cerr << "Failed to set termios settings";
+        std::cerr << "Error: Failed to set termios settings";
         close(serialPortFileDescriptor);
         return 1;
     }
@@ -64,7 +79,7 @@ int main(int /* argc */, char ** /* argv[] */)
     if ((tcflush(serialPortFileDescriptor, TCIOFLUSH)) != 0)
     {
 
-        std::cerr << "Failed to flush termios settings";
+        std::cerr << "Error: Failed to flush termios settings";
         close(serialPortFileDescriptor);
         return 1;
     }

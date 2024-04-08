@@ -21,11 +21,11 @@ In a separate window, open `dmesg`.
 
 Since the device will be writing to `/dev/uinput`, you need to either:
 
-(a) Run the executable (Tourbox_Linux_Driver) as root
+(a) Run the executable (Tourbox_Linux_Driver) as root, passing in the path to the serial port for your device. This is either `/dev/ttyACM0` or `/dev/ttyUSB0` on most distributions, check your dmesg output when you connect your device to be sure.
 
 (b) Change the permissions on `/dev/uinput`
 
-Whatever you decide to do, after running the executable you should see an entry in the `dmesg` wnidow with the device:
+Whatever you decide to do, after running the executable you should see an entry in the `dmesg` window with the device:
 
 ```
 input: Custom Tourbox TBG_H Driver (Keyboard/Mouse) as /devices/virtual/input/input48

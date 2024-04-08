@@ -113,7 +113,8 @@ int main(int argc, char **argv)
         if (bytesRead > 0)
         {
 
-            std::cout << std::hex << std::setfill('0') << std::setw(2) << readBuffer[0] << " " << readBuffer[1] << std::endl;
+            // Debug only
+            // std::cout << std::hex << std::setfill('0') << std::setw(2) << readBuffer[0] << " " << readBuffer[1] << std::endl;
 
             switch (readBuffer[0])
             {

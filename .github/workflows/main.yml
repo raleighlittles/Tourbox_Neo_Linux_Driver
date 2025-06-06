@@ -23,8 +23,11 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+
+      - name: Setup dependencies
+        run: sudo apt-get update && sudo apt-get install -y cmake clang-tidy
 
       # Runs a single command using the runners shell
-      - name: Compile
-        run: cmake cpp/CMakeLists.txt && make
+      - name: Build
+        run: cd cpp && BUILD_DIR=$(date +'%Y-%m-%d')_build; cmake -S . -B $BUILD_DIR && cmake --build $BUILD_DIR

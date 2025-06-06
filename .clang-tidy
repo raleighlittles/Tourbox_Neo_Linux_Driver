@@ -1,0 +1,30 @@
+Checks: >
+  cppcoreguidelines-*
+
+WarningsAsErrors: ''
+
+HeaderFilterRegex: '.*'
+
+AnalyzeTemporaryDtors: false
+FormatStyle:     none
+
+CheckOptions:
+  # Prevent false positives and unwanted behavior
+  - key:             cppcoreguidelines-avoid-magic-numbers.IgnoreEnums
+    value:           '1'
+  - key:             cppcoreguidelines-pro-bounds-array-to-pointer-decay.WarnOnAllAutoDecay
+    value:           '0'
+  - key:             cppcoreguidelines-pro-type-vararg.WarnOnOldStyle
+    value:           '1'
+  - key:             cppcoreguidelines-pro-type-reinterpret-cast.StrictMode
+    value:           'false'
+  - key:             cppcoreguidelines-avoid-magic-numbers.IgnoredValues
+    value:           '0,1,-1,2'
+
+# Optional: disable some noisy or redundant checks
+DisableChecks: >
+  - cppcoreguidelines-pro-type-union-access
+  - cppcoreguidelines-owning-memory
+  - cppcoreguidelines-pro-type-vararg
+  - cppcoreguidelines-avoid-non-const-global-variables
+  - cppcoreguidelines-no-malloc
